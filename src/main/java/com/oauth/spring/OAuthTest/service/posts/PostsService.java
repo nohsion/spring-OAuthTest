@@ -2,12 +2,16 @@ package com.oauth.spring.OAuthTest.service.posts;
 
 import com.oauth.spring.OAuthTest.domain.posts.Posts;
 import com.oauth.spring.OAuthTest.domain.posts.PostsRepository;
+import com.oauth.spring.OAuthTest.web.dto.PostsListResponseDto;
 import com.oauth.spring.OAuthTest.web.dto.PostsResponseDto;
 import com.oauth.spring.OAuthTest.web.dto.PostsSaveRequestDto;
 import com.oauth.spring.OAuthTest.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -36,4 +40,12 @@ public class PostsService {
 
         return new PostsResponseDto(entity);
     }
+
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 }
